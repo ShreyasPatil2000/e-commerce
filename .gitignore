@@ -35,6 +35,7 @@ yarn-error.log*
 .env
 prisma/.env
 prisma/migrations
+/lib/generated
 replacements.txt
 
 # vercel
