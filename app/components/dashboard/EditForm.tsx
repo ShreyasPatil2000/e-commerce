@@ -1,7 +1,5 @@
 "use client";
 
-import { createProduct } from "@/app/actions";
-import { UploadDropzone } from "@/app/lib/uploadthing";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
@@ -10,18 +8,34 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Switch } from "@/components/ui/switch";
 import { Textarea } from "@/components/ui/textarea";
 import { ChevronLeft, XIcon } from "lucide-react";
+import Image from "next/image";
 import Link from "next/link";
+import { SubmitButton } from "../SubmitButton";
+import { UploadDropzone } from "@/app/lib/uploadthing";
+import { categories } from "@/app/lib/categories";
+import { useActionState, useState } from "react";
 import { useForm } from "@conform-to/react";
 import { parseWithZod } from "@conform-to/zod";
+import { editProduct } from "@/app/actions";
 import { productSchema } from "@/app/lib/zodSchemas";
-import { useActionState, useState } from "react";
-import Image from "next/image";
-import { categories } from "@/app/lib/categories";
-import { SubmitButton } from "@/app/components/SubmitButton";
+import { type $Enums } from "@/lib/generated/prisma";
 
-const ProductCreateRoute = () => {
-  const [images, setImages] = useState<string[]>([]);
-  const [lastResult, action] = useActionState(createProduct, undefined);
+interface iAppProps {
+  data: {
+    name: string;
+    description: string;
+    status: $Enums.ProductStatus;
+    price: number;
+    images: string[];
+    category: $Enums.Category;
+    isFeatured: boolean;
+    id: string;
+  };
+}
+
+const EditForm = ({ data }: iAppProps) => {
+  const [images, setImages] = useState<string[]>(data.images);
+  const [lastResult, action] = useActionState(editProduct, undefined);
   const [form, fields] = useForm({
     lastResult,
 
@@ -36,16 +50,16 @@ const ProductCreateRoute = () => {
   const handleDelete = (index: number) => {
     setImages(images.filter((_, i) => i !== index));
   };
-
   return (
     <form id={form.id} onSubmit={form.onSubmit} action={action}>
+      <input type="hidden" name="productId" value={data.id}/>
       <div className="flex items-center gap-4">
         <Button variant="outline" size="icon" asChild>
           <Link href="/dashboard/products">
             <ChevronLeft className="w-4 h-4" />
           </Link>
         </Button>
-        <h1 className="text-xl font-semibold tracking-tight">New Product</h1>
+        <h1 className="text-xl font-semibold tracking-tight">Edit Product</h1>
       </div>
       <Card className="mt-5">
         <CardHeader>
@@ -61,7 +75,7 @@ const ProductCreateRoute = () => {
                 className="w-full"
                 key={fields.name.key}
                 name={fields.name.name}
-                defaultValue={fields.name.initialValue}
+                defaultValue={data.name}
                 placeholder="Product Name"
               />
               <p className="text-red-500">{fields.name.errors}</p>
@@ -71,7 +85,7 @@ const ProductCreateRoute = () => {
               <Textarea
                 key={fields.description.key}
                 name={fields.description.name}
-                defaultValue={fields.description.initialValue}
+                defaultValue={data.description}
                 placeholder="Write your description right here..."
               />
               <p className="text-red-500">{fields.description.errors}</p>
@@ -82,23 +96,19 @@ const ProductCreateRoute = () => {
                 type="number"
                 key={fields.price.key}
                 name={fields.price.name}
-                defaultValue={fields.price.initialValue}
+                defaultValue={data.price}
                 placeholder="$55"
               />
               <p className="text-red-500">{fields.price.errors}</p>
             </div>
             <div className="flex flex-col gap-3">
               <Label>Featured Product</Label>
-              <Switch
-                key={fields.isFeatured.key}
-                name={fields.isFeatured.name}
-                defaultValue={fields.isFeatured.initialValue}
-              />
+              <Switch key={fields.isFeatured.key} name={fields.isFeatured.name} defaultChecked={data.isFeatured} />
               <p className="text-red-500">{fields.isFeatured.errors}</p>
             </div>
             <div className="flex flex-col gap-3">
               <Label>Status</Label>
-              <Select key={fields.status.key} name={fields.status.name} defaultValue={fields.status.initialValue}>
+              <Select key={fields.status.key} name={fields.status.name} defaultValue={data.status}>
                 <SelectTrigger>
                   <SelectValue placeholder="Select Status" />
                 </SelectTrigger>
@@ -113,7 +123,7 @@ const ProductCreateRoute = () => {
 
             <div className="flex flex-col gap-3">
               <Label>Category</Label>
-              <Select key={fields.category.key} name={fields.category.name} defaultValue={fields.category.initialValue}>
+              <Select key={fields.category.key} name={fields.category.name} defaultValue={data.category}>
                 <SelectTrigger>
                   <SelectValue placeholder="Select Category" />
                 </SelectTrigger>
@@ -175,11 +185,11 @@ const ProductCreateRoute = () => {
           </div>
         </CardContent>
         <CardFooter>
-          <SubmitButton text="Create Product"/>
+          <SubmitButton text="Edit Product" />
         </CardFooter>
       </Card>
     </form>
   );
 };
 
-export default ProductCreateRoute;
+export default EditForm;
