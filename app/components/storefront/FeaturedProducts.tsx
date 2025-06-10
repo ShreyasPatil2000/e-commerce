@@ -1,5 +1,6 @@
 import { prisma } from "@/app/lib/prisma";
-import ProductCart from "./ProductCart";
+import ProductCart, { LoadingProductCart } from "./ProductCart";
+import { Suspense } from "react";
 
 const getData = async () => {
   const data = await prisma.product.findMany({
@@ -22,18 +23,36 @@ const getData = async () => {
   return data;
 };
 
-const FeaturedProducts = async () => {
-  const data = await getData();
+const FeaturedProducts = () => {
   return (
     <div>
       <h2 className="text-2xl font-extrabold tracking-tight">Featured Items</h2>
-      <div className="mt-5 grid sm:grid-cols-2 lg:grid-cols-3">
-        {data.map((item) => (
-            <ProductCart key={item.id} item={item} />
-        ))}
-      </div>
+      <Suspense fallback={<LoadingRows />}>
+        <LoadFeaturedProducts />
+      </Suspense>
     </div>
   );
 };
 
 export default FeaturedProducts;
+
+async function LoadFeaturedProducts() {
+  const data = await getData();
+  return (
+    <div className="mt-5 grid sm:grid-cols-2 lg:grid-cols-3">
+      {data.map((item) => (
+        <ProductCart key={item.id} item={item} />
+      ))}
+    </div>
+  );
+}
+
+const LoadingRows = () => {
+  return (
+    <div className="mt-5 grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
+      <LoadingProductCart />
+      <LoadingProductCart />
+      <LoadingProductCart />
+    </div>
+  );
+};

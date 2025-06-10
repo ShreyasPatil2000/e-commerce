@@ -44,4 +44,36 @@ export function ShoppingBagButton() {
   );
 }
 
-export function deleteItem() {};
+export function DeleteButton() {
+  const { pending } = useFormStatus();
+  return (
+    <>
+      {pending ? (
+        <Button disabled className="font-medium text-primary text-end">
+          Removing ...
+        </Button>
+      ) : (
+        <Button type="submit" className="font-medium text-primary text-end">
+          Delete
+        </Button>
+      )}
+    </>
+  );
+}
+
+export function CheckoutButton() {
+  const { pending } = useFormStatus();
+  return (
+    <>
+      {pending ? (
+        <Button disabled size="lg" className="w-full mt-5">
+          <Loader2 className="mr-2 w-5 h-5 animate-spin"/>
+        </Button>
+      ) : (
+        <Button type="submit" size="lg" className="w-full mt-5">
+          Checkout
+        </Button>
+      )}
+    </>
+  );
+}

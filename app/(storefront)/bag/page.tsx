@@ -1,9 +1,12 @@
-import { deleteItem } from "@/app/actions";
+import { checkOut, deleteItem } from "@/app/actions";
+import { CheckoutButton, DeleteButton } from "@/app/components/SubmitButton";
 import { Cart } from "@/app/lib/interfaces";
 import { redis } from "@/app/lib/redis";
 import { Button } from "@/components/ui/button";
 import { getKindeServerSession } from "@kinde-oss/kinde-auth-nextjs/server";
+import { ShoppingBag } from "lucide-react";
 import Image from "next/image";
+import Link from "next/link";
 import { redirect } from "next/navigation";
 
 const BagRoute = async () => {
@@ -20,8 +23,18 @@ const BagRoute = async () => {
   return (
     <div className="max-w-2xl mx-auto mt-10 min-h-[55vh]">
       {cart?.items.length === 0 ? (
-        <div>
-          <h1>Nothing in the Shopping Bag</h1>
+        <div className="flex min-h-[400px] flex-col items-center justify-center rounded-lg border border-dashed p-8 text-center mt-20">
+          <div className="flex w-20 h-20 items-center justify-center rounded-full bg-primary/10">
+            <ShoppingBag className="w-10 h-10 text-primary" />
+          </div>
+          <h2 className="mt-6 text-xl font-semibold">You don&apos;t have any products in your bag.</h2>
+          <p className="mb-8 mt-2 text-center text-sm leading-6 text-muted-foreground max-w-sm mx-auto">
+            Currently, you don&apos;t have any products in your bag. Please add some products so you can see them right
+            here.
+          </p>
+          <Button asChild>
+            <Link href="/">Shop now!</Link>
+          </Button>
         </div>
       ) : (
         <div className="flex flex-col gap-y-10">
@@ -39,7 +52,7 @@ const BagRoute = async () => {
                   </div>
                   <form action={deleteItem} className="text-end">
                     <input type="hidden" name="productId" value={item.id} />
-                    <Button className="font-medium text-primary text-end"> Delete </Button>
+                    <DeleteButton />
                   </form>
                 </div>
               </div>
@@ -50,9 +63,9 @@ const BagRoute = async () => {
               <p>Subtotal: </p>
               <p>${new Intl.NumberFormat("en-US").format(totalPrice)}</p>
             </div>
-            <Button size="lg" className="w-full mt-5">
-              Checkout
-            </Button>
+            <form action={checkOut}>
+              <CheckoutButton />
+            </form>
           </div>
         </div>
       )}
