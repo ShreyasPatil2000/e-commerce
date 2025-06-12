@@ -23,6 +23,7 @@ model User {
   firstName    String
   lastName     String
   profileImage String
+  order        Order[]
   createdAt    DateTime @default(now())
 }
 
@@ -43,6 +44,15 @@ model Banner {
   title       String
   imageString String
   createdAt   DateTime @default(now())
+}
+
+model Order {
+  id        String   @id @default(uuid())
+  status    String   @default("pending")
+  amount    Int
+  User      User?    @relation(fields: [userId], references: [id])
+  userId    String?
+  createdAt DateTime @default(now())
 }
 
 enum ProductStatus {
