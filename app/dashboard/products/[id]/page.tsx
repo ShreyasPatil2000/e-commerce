@@ -1,5 +1,6 @@
 import EditForm from "@/app/components/dashboard/EditForm";
 import { prisma } from "@/app/lib/prisma";
+import { unstable_noStore as noStore } from "next/cache";
 import { notFound } from "next/navigation";
 
 const getData = async (productId: string) => {
@@ -17,6 +18,7 @@ const getData = async (productId: string) => {
 };
 
 const EditRoute = async ({ params }: { params: Promise<{ id: string }> }) => {
+  noStore();
   const { id } = await params;
   const data = await getData(id);
   return <EditForm data={data} />;

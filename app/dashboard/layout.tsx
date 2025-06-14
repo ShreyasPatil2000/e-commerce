@@ -15,8 +15,10 @@ import { getKindeServerSession } from "@kinde-oss/kinde-auth-nextjs/server";
 import { LogoutLink } from "@kinde-oss/kinde-auth-nextjs/components";
 
 import { redirect } from "next/navigation";
+import { unstable_noStore as noStore} from "next/cache";
 
 const DashboardLayout = async ({ children }: { children: ReactNode }) => {
+  noStore();
   const { getUser } = getKindeServerSession();
   const user = await getUser();
 

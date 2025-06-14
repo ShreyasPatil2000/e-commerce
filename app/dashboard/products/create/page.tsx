@@ -18,8 +18,10 @@ import { useActionState, useState } from "react";
 import Image from "next/image";
 import { categories } from "@/app/lib/categories";
 import { SubmitButton } from "@/app/components/SubmitButton";
+import { unstable_noStore as noStore } from "next/cache";
 
 const ProductCreateRoute = () => {
+  noStore();
   const [images, setImages] = useState<string[]>([]);
   const [lastResult, action] = useActionState(createProduct, undefined);
   const [form, fields] = useForm({

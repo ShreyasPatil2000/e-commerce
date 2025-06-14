@@ -3,6 +3,7 @@ import DashboardStats from "../components/dashboard/DashboardStats";
 import RecentSales from "../components/dashboard/RecentSales";
 import Chart from "../components/dashboard/Chart";
 import { prisma } from "@/app/lib/prisma";
+import { unstable_noStore as noStore } from "next/cache";
 
 const getData = async () => {
   const now = new Date();
@@ -32,6 +33,7 @@ const getData = async () => {
 };
 
 const Dashboard = async() => {
+  noStore();
   const data = await getData();
   return (
     <div>

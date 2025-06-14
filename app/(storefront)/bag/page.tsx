@@ -6,11 +6,13 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { getKindeServerSession } from "@kinde-oss/kinde-auth-nextjs/server";
 import { ShoppingBag } from "lucide-react";
+import { unstable_noStore } from "next/cache";
 import Image from "next/image";
 import Link from "next/link";
 import { redirect } from "next/navigation";
 
 const BagRoute = async () => {
+  unstable_noStore();
   const { getUser } = getKindeServerSession();
   const user = await getUser();
   if (!user) {
@@ -42,7 +44,7 @@ const BagRoute = async () => {
           {cart?.items.map((item) => (
             <div key={item.id} className="flex">
               <div className="w-24 h-24 sm:w-32 sm:h-32 relative">
-                <Image className="rounded-md object-cover" src={item.imageString} alt="Product Image" fill/>
+                <Image className="rounded-md object-cover" src={item.imageString} alt="Product Image" fill />
               </div>
               <div className="ml-5 flex justify-between w-full font-medium">
                 <p>{item.name}</p>

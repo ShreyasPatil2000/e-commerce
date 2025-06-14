@@ -11,6 +11,7 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { MoreHorizontal, PlusCircle } from "lucide-react";
+import { unstable_noStore as noStore } from "next/cache";
 import Image from "next/image";
 import Link from "next/link";
 
@@ -24,6 +25,7 @@ async function getData() {
 }
 
 const BannerRoute = async () => {
+  noStore();
   const data = await getData();
   return (
     <>
