@@ -1,6 +1,7 @@
 import { prisma } from "@/app/lib/prisma";
 import { Suspense } from "react";
 import { LoadingProductCart, ProductCard } from "./ProductCart";
+import { unstable_noStore } from "next/cache";
 
 const getData = async () => {
   const data = await prisma.product.findMany({
@@ -24,6 +25,7 @@ const getData = async () => {
 };
 
 const FeaturedProducts = () => {
+  unstable_noStore();
   return (
     <div>
       <h2 className="text-2xl font-extrabold tracking-tight">Featured Items</h2>
@@ -37,6 +39,7 @@ const FeaturedProducts = () => {
 export default FeaturedProducts;
 
 async function LoadFeaturedProducts() {
+  unstable_noStore();
   const data = await getData();
   return (
     <div className="mt-5 grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
