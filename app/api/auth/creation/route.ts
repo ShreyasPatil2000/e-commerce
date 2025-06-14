@@ -3,7 +3,7 @@ import { getKindeServerSession } from "@kinde-oss/kinde-auth-nextjs/server";
 import { unstable_noStore as noStore } from "next/cache";
 import { NextResponse } from "next/server";
 
-export const runtime = 'nodejs'; 
+export const runtime = "nodejs";
 
 export async function GET() {
   try {
@@ -36,7 +36,9 @@ export async function GET() {
         return NextResponse.json({ error: "Failed to create user." }, { status: 500 });
       }
     }
-    return NextResponse.redirect("http://localhost:3000/");
+    return NextResponse.redirect(
+      process.env.NODE_ENV === "development" ? "https://localhost:3000/" : "https://shoestack-nu.vercel.app/"
+    );
   } catch (error) {
     console.error("API Error:", error);
     return NextResponse.json({ error: "Internal Server Error" }, { status: 500 });
