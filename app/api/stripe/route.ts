@@ -5,7 +5,8 @@ import { headers } from "next/headers";
 
 export async function POST(req: Request) {
   const body = await req.text();
-  const signature = headers().get("Stripe-Signature") as string;
+  const headersList = await headers(); 
+  const signature = headersList.get("Stripe-Signature") as string;
   let event;
   try {
     event = stripe.webhooks.constructEvent(body, signature, process.env.STRIPE_SECRET_WEBHOOK as string);
