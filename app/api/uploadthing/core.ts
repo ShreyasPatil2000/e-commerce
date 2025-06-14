@@ -12,7 +12,7 @@ export const ourFileRouter = {
       maxFileCount: 10,
     },
   })
-    .middleware(async ({ req }) => {
+    .middleware(async () => {
       const { getUser } = getKindeServerSession();
       const user = await getUser();
       if (!user || user.email !== "svpatil20000@gmail.com") throw new UploadThingError("Unauthorized");
@@ -30,7 +30,7 @@ export const ourFileRouter = {
       maxFileCount: 1,
     },
   })
-    .middleware(async ({ req }) => {
+    .middleware(async () => {
       const { getUser } = getKindeServerSession();
       const user = await getUser();
       if (!user || user.email !== "svpatil20000@gmail.com") throw new UploadThingError("Unauthorized");

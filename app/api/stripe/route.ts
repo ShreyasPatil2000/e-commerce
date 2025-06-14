@@ -5,12 +5,13 @@ import { headers } from "next/headers";
 
 export async function POST(req: Request) {
   const body = await req.text();
-  const headersList = await headers(); 
+  const headersList = await headers();
   const signature = headersList.get("Stripe-Signature") as string;
   let event;
   try {
     event = stripe.webhooks.constructEvent(body, signature, process.env.STRIPE_SECRET_WEBHOOK as string);
   } catch (error: unknown) {
+    console.error("Webhook signature verification failed:", error);
     return new Response("Webhook error", { status: 400 });
   }
 
