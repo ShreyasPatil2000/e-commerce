@@ -16,11 +16,10 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body>
-      <NextSSRPlugin
-          routerConfig={extractRouterConfig(ourFileRouter)}
-        />
-        {children}</body>
+      <body suppressHydrationWarning={true}>
+        <NextSSRPlugin routerConfig={extractRouterConfig(ourFileRouter)} />
+        {children}
+      </body>
     </html>
   );
 }

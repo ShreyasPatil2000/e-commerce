@@ -10,13 +10,13 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { LogoutLink } from "@kinde-oss/kinde-auth-nextjs/components";
 
-interface iAappProps {
+interface iAppProps {
   email: string;
   name: string;
   userImage: string;
 }
 
-const UserDropDown = ({ email, name, userImage }: iAappProps) => {
+const UserDropDown = ({ email, name, userImage }: iAppProps) => {
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>

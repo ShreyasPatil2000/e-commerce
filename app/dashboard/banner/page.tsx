@@ -6,10 +6,10 @@ import {
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuLabel,
+  DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
-import { DropdownMenuSeparator } from "@radix-ui/react-dropdown-menu";
 import { MoreHorizontal, PlusCircle } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
@@ -29,7 +29,7 @@ const BannerRoute = async () => {
     <>
       <div className="flex items-center justify-end">
         <Button asChild className="flex gap-x-2">
-          <Link href="/dashborad/banner/create">
+          <Link href="/dashboard/banner/create">
             <PlusCircle className="h-3.5 w-3.5" />
             <span>Add Banner</span>
           </Link>

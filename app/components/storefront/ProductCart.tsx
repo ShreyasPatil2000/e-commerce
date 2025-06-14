@@ -14,7 +14,7 @@ interface iAappProps {
   };
 }
 
-const ProductCart = ({ item }: iAappProps) => {
+export function ProductCard({ item }: iAappProps) {
   return (
     <div className="rounded-lg">
       <Carousel className="w-full mx-auto">
@@ -43,13 +43,11 @@ const ProductCart = ({ item }: iAappProps) => {
       </div>
       <p className="text-gray-600 text-sm mt-2 line-clamp-2">{item.description}</p>
       <Button asChild className="w-full mt-5">
-        <Link href={`/products/${item.id}`}> Learn More! </Link>
+        <Link href={`/product/${item.id}`}> Learn More! </Link>
       </Button>
     </div>
   );
 };
-
-export default ProductCart;
 
 export function LoadingProductCart() {
   return (

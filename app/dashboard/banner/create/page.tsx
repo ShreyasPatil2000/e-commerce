@@ -13,12 +13,11 @@ import { parseWithZod } from "@conform-to/zod";
 import { ChevronLeft } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
-import { useState } from "react";
-import { useFormState } from "react-dom";
+import { useActionState, useState } from "react";
 
 const BannerRoute = () => {
   const [image, setImage] = useState<string | undefined>(undefined);
-  const [lastResult, action] = useFormState(createBanner, undefined);
+  const [lastResult, action] = useActionState(createBanner, undefined);
   const [form, fields] = useForm({
     lastResult,
     onValidate({ formData }) {

@@ -1,5 +1,6 @@
-import ProductCart from "@/app/components/storefront/ProductCart";
+import { ProductCard } from "@/app/components/storefront/ProductCart";
 import { prisma } from "@/app/lib/prisma";
+import { unstable_noStore } from "next/cache";
 import { notFound } from "next/navigation";
 
 const getData = async (productCategory: string) => {
@@ -76,14 +77,16 @@ const getData = async (productCategory: string) => {
   }
 };
 
-const CategoriesPage = async ({ params }: { params: { name: string } }) => {
-  const {data, title} = await getData(params.name);
+const CategoriesPage = async ({ params }: { params: Promise<{ name: string }> }) => {
+  unstable_noStore();
+  const { name } = await params;
+  const { data, title } = await getData(name);
   return (
     <section>
       <h1 className="font-semibold text-3xl my-5">{title}</h1>
       <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-5">
         {data.map((item) => (
-          <ProductCart key={item.id} item={item}/>
+          <ProductCard key={item.id} item={item} />
         ))}
       </div>
     </section>

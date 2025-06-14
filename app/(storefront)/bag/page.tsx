@@ -3,6 +3,7 @@ import { CheckoutButton, DeleteButton } from "@/app/components/SubmitButton";
 import { Cart } from "@/app/lib/interfaces";
 import { redis } from "@/app/lib/redis";
 import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
 import { getKindeServerSession } from "@kinde-oss/kinde-auth-nextjs/server";
 import { ShoppingBag } from "lucide-react";
 import Image from "next/image";
@@ -41,7 +42,7 @@ const BagRoute = async () => {
           {cart?.items.map((item) => (
             <div key={item.id} className="flex">
               <div className="w-24 h-24 sm:w-32 sm:h-32 relative">
-                <Image className="rounded-md object-cover" src={item.imageString} alt="Product Image" />
+                <Image className="rounded-md object-cover" src={item.imageString} alt="Product Image" fill/>
               </div>
               <div className="ml-5 flex justify-between w-full font-medium">
                 <p>{item.name}</p>
@@ -51,7 +52,7 @@ const BagRoute = async () => {
                     <p>${item.price}</p>
                   </div>
                   <form action={deleteItem} className="text-end">
-                    <input type="hidden" name="productId" value={item.id} />
+                    <Input type="hidden" name="productId" value={item.id} />
                     <DeleteButton />
                   </form>
                 </div>

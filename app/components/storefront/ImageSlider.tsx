@@ -28,7 +28,7 @@ const ImageSlider = ({ images }: iAappProps) => {
     <div className="grid gap-6 md:gap-3 items-start">
       <div className="relative rounded-lg overflow-hidden">
         <Image
-          src={images[0]}
+          src={images[imageIndex]}
           width={600}
           height={600}
           alt="Product Image"

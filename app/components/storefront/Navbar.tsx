@@ -1,12 +1,12 @@
 import Link from "next/link";
 import NavbarLinks from "./NavbarLinks";
-import { getKindeServerSession, RegisterLink } from "@kinde-oss/kinde-auth-nextjs/server";
+import { getKindeServerSession } from "@kinde-oss/kinde-auth-nextjs/server";
 import { ShoppingBagIcon } from "lucide-react";
 import UserDropDown from "./UserDropDown";
 import { Button } from "@/components/ui/button";
-import { LoginLink } from "@kinde-oss/kinde-auth-nextjs/server";
 import { redis } from "@/app/lib/redis";
 import { Cart } from "@/app/lib/interfaces";
+import { LoginLink, RegisterLink } from "@kinde-oss/kinde-auth-nextjs/components";
 
 const Navbar = async () => {
   const { getUser } = getKindeServerSession();
@@ -41,8 +41,8 @@ const Navbar = async () => {
           <div className="hidden md:flex md:flex-1 md:items-center md:justify-end md:space-x-2">
             <Button variant="ghost" asChild>
               <LoginLink>Sign in</LoginLink>
-              <span className="h-6 w-px bg-gray-200"></span>
             </Button>
+            <span className="h-6 w-px bg-gray-200"></span>
             <Button variant="ghost" asChild>
               <RegisterLink>Create Account</RegisterLink>
             </Button>

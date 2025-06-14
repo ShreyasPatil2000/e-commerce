@@ -4,6 +4,7 @@ import ImageSlider from "@/app/components/storefront/ImageSlider";
 import { ShoppingBagButton } from "@/app/components/SubmitButton";
 import { prisma } from "@/app/lib/prisma";
 import { StarIcon } from "lucide-react";
+import { unstable_noStore } from "next/cache";
 import { notFound } from "next/navigation";
 
 const getData = async (productId: string) => {
@@ -25,11 +26,13 @@ const getData = async (productId: string) => {
   return data;
 };
 
-const ProductIdRoute = async ({ params }: { params: { id: string } }) => {
-  const data = await getData(params.id);
+const ProductIdRoute = async ({ params }: { params: Promise<{ id: string }> }) => {
+  unstable_noStore();
+  const { id } = await params;
+  const data = await getData(id);
   const addProductToCart = addItem.bind(null, data.id);
   return (
-    <>
+    <div>
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6 items-start lg:gap-x-24 py-6">
         <ImageSlider images={data.images} />
         <div>
@@ -52,7 +55,7 @@ const ProductIdRoute = async ({ params }: { params: { id: string } }) => {
       <div className="mt-16">
         <FeaturedProducts />
       </div>
-    </>
+    </div>
   );
 };
 

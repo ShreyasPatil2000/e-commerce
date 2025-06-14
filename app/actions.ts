@@ -228,7 +228,7 @@ export async function deleteItem(formData: FormData) {
   revalidatePath("/bag");
 }
 
-export async function checkOut(params: type) {
+export async function checkOut() {
   const { getUser } = getKindeServerSession();
   const user = await getUser();
   if (!user) {
